@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Grid, Row, Col} from 'react-flexbox-grid';
 import LocationList from './components/LocationList';
+import ForecastExtended from './components/ForecastExtended';
 import './App.css';
 
 
@@ -17,17 +18,26 @@ const cities = [
 ];
 
 class App extends Component {
+  constructor(){
+    super()
+    this.state = {
+      city: null
+    };
+  }
 
   handSelectionLocation = city => {
-    console.log(`handSelectedLocation ${city}`);
+    this.setState({
+      city:city
+    });
   }
   render() {
+    const {city} = this.state;
     return (
       <Grid>
         <Row>
           <AppBar position='sticky'>
             <Toolbar>
-              <Typography variant='title' color='inherit'>
+              <Typography variant='h2' color='inherit'>
                 Weather App
               </Typography>
             </Toolbar>
@@ -41,7 +51,13 @@ class App extends Component {
           </Col>
           <Col xs={12} md={6}>
             <Paper elevation={4}>
-              <div className="details"></div>
+              <div className="details">
+                {
+                  !city ? 
+                  <h1>No se seleccionó ciudad</h1> : 
+                  <ForecastExtended city={city}></ForecastExtended>
+                  }
+              </div>
             </Paper>
           </Col>
         </Row>
