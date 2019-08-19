@@ -1,13 +1,11 @@
 import React, { Component} from 'react';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Grid, Row, Col} from 'react-flexbox-grid';
 import AppBar from '@material-ui/core/AppBar';
-import LocationList from './components/LocationList';
-import ForecastExtended from './components/ForecastExtended';
-import { setCity } from './actions';
+import LocationListContainer from './containers/LocationListContainer';
+import ForecastExtendedContainer from './containers/ForecastExtendedContainer';
 import './App.css';
 
 
@@ -24,21 +22,11 @@ const cities = [
 
 
 class App extends Component {
-  constructor(){
-    super()
-    this.state = {
-      city: null
-    };
-  }
 
-  handSelectionLocation = city => {
-    this.setState({
-      city:city
-    });
-    this.props.setCity(city);
-  }
+
+
   render() {
-    const {city} = this.state;
+
     return (
       <Grid>
         <Row>
@@ -52,17 +40,12 @@ class App extends Component {
         </Row>
         <Row>
           <Col xs={12} md={6}>
-            <LocationList 
-              cities={cities} 
-              onSelectedLocation={this.handSelectionLocation}></LocationList>
+            <LocationListContainer cities={cities} ></LocationListContainer>
           </Col>
           <Col xs={12} md={6}>
             <Paper elevation={4}>
               <div className="details">
-                {
-                  city && 
-                  <ForecastExtended city={city}></ForecastExtended>
-                  }
+                <ForecastExtendedContainer></ForecastExtendedContainer>
               </div>
             </Paper>
           </Col>
@@ -73,8 +56,5 @@ class App extends Component {
 }
 
 
-const mapDispatchToPops = dispatch => ({
-  setCity: value => dispatch(setCity(value))
-});
 
-export default connect(null, mapDispatchToPops)(App);
+export default App;
